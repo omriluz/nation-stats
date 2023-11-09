@@ -1,0 +1,119 @@
+---
+import countries from "../../../countries_new.json"
+import Layout from "../../layouts/Layout.astro"
+import RandomCountryLink from "../../components/RandomCountryLink.jsx"
+
+export function getStaticPaths() {
+  return countries.map(country => {
+    return {
+      params: {
+        country: country.name.common,
+      },
+    }
+  })
+}
+
+const { country } = Astro.params
+const selectedCountry = countries.find(
+  ({ name }: any) => name.common === country
+)
+---
+
+<Layout title={`Nation Stats For ${country}`}>
+  <main class="bg-gray-300">
+    <header
+      class="h-96 relative bg-gradient-to-tr from-slate-600 via-slate-200 to-slate-800"
+    >
+      <div class="custom-shape-divider-bottom-1699455067">
+        <svg
+          data-name="Layer 1"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
+            class="shape-fill"></path>
+        </svg>
+      </div>
+    </header>
+    <section class="max-w-7xl mx-auto -mt-48 relative z-40">
+      <div class="max-w-[40rem] relative mx-auto">
+        {
+          selectedCountry && (
+            <h1
+              id="title"
+              class="text-3xl font-bold opacity-0 absolute top-0 transition-all duration-500"
+            >
+              {selectedCountry.name.common}
+            </h1>
+          )
+        }
+        {
+          selectedCountry && (
+            <img
+              class="w-full"
+              transition:name={`flag-of-${selectedCountry?.name.common}`}
+              src={selectedCountry.flags.png}
+            />
+          )
+        }
+      </div>
+      <ul class="font-bold">
+        {
+          selectedCountry && (
+            <li>
+              Capital{" "}
+              {selectedCountry?.capital ? selectedCountry?.capital[0] : ""}
+            </li>
+          )
+        }
+        {
+          selectedCountry && (
+            <li>
+              Population{" "}
+              {new Intl.NumberFormat().format(selectedCountry?.population)}
+            </li>
+          )
+        }
+      </ul>
+    </section>
+  </main>
+  <RandomCountryLink selectedCountry={selectedCountry} client:load />
+</Layout>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    // This only runs once.
+    const pageTitle = document.getElementById("title")
+    setTimeout(() => {
+      if (pageTitle) {
+        pageTitle.style.opacity = "100"
+        pageTitle.style.top = "-3rem"
+      }
+    }, 100)
+  })
+</script>
+
+<style>
+  .custom-shape-divider-bottom-1699455067 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+  }
+
+  .custom-shape-divider-bottom-1699455067 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 70px;
+  }
+
+  .custom-shape-divider-bottom-1699455067 .shape-fill {
+    @apply fill-gray-300;
+  }
+</style>

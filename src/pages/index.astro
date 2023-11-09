@@ -1,0 +1,24 @@
+---
+import Layout from "../layouts/Layout.astro"
+import countries from "../../countries_new.json"
+---
+
+<Layout title="Welcome to Astro.">
+  <main class="flex flex-wrap gap-4">
+    {
+      countries.map(({ name, flags }) => {
+        return (
+          <a href={`/countries/${name.common}`}>
+            <img
+              transition:name={`flag-of-${name.common}`}
+              class="w-96 aspect-[2/1]"
+              src={flags.png}
+            />
+          </a>
+        )
+      })
+    }
+  </main>
+</Layout>
+
+<style></style>
