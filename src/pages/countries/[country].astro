@@ -17,10 +17,16 @@ const { country } = Astro.params
 const selectedCountry = countries.find(
   ({ name }: any) => name.common === country
 )
+
+// const population = selectedCountry?.population
+// const countryData = {population}
+// const countryData = {
+//     population: new Intl.NumberFormat().format(48232389)} || "",
+// }
 ---
 
 <Layout title={`Nation Stats For ${country}`}>
-  <main class="bg-gray-300">
+  <main>
     <header
       class="h-96 relative bg-gradient-to-tr from-slate-600 via-slate-200 to-slate-800"
     >
@@ -58,25 +64,43 @@ const selectedCountry = countries.find(
             />
           )
         }
+        {
+          selectedCountry && (
+            <ul
+              class="font-bold opacity-0 mt-10 bg-white/60 py-2 px-4 rounded-lg space-y-4 transition-opacity duration-500"
+              id="country-info"
+            >
+              <li>
+                Capital:{" "}
+                {selectedCountry?.capital ? selectedCountry?.capital[0] : ""}
+              </li>
+              <li>
+                Population:{" "}
+                {new Intl.NumberFormat().format(selectedCountry?.population)}
+              </li>
+              <li>Region {selectedCountry?.region}</li>
+              <li>
+                Size
+                {new Intl.NumberFormat().format(selectedCountry?.area)}
+              </li>
+              <li class="flex gap-4">
+                Language:{" "}
+                {selectedCountry?.languages &&
+                  Object.values(selectedCountry?.languages).map(value => (
+                    <span>{value}</span>
+                  ))}
+              </li>
+              <li class="flex gap-4">
+                Currency:{" "}
+                {selectedCountry?.currencies &&
+                  Object.values(selectedCountry.currencies).map(value => (
+                    <span>{value.name}</span>
+                  ))}
+              </li>
+            </ul>
+          )
+        }
       </div>
-      <ul class="font-bold">
-        {
-          selectedCountry && (
-            <li>
-              Capital{" "}
-              {selectedCountry?.capital ? selectedCountry?.capital[0] : ""}
-            </li>
-          )
-        }
-        {
-          selectedCountry && (
-            <li>
-              Population{" "}
-              {new Intl.NumberFormat().format(selectedCountry?.population)}
-            </li>
-          )
-        }
-      </ul>
     </section>
   </main>
   <RandomCountryLink selectedCountry={selectedCountry} client:load />
@@ -86,12 +110,19 @@ const selectedCountry = countries.find(
   document.addEventListener("astro:page-load", () => {
     // This only runs once.
     const pageTitle = document.getElementById("title")
+    const countryInfo = document.getElementById("country-info")
     setTimeout(() => {
       if (pageTitle) {
         pageTitle.style.opacity = "100"
         pageTitle.style.top = "-3rem"
       }
-    }, 100)
+    }, 80)
+
+    setTimeout(() => {
+      if (countryInfo) {
+        countryInfo.style.opacity = "100"
+      }
+    }, 400)
   })
 </script>
 
@@ -114,6 +145,6 @@ const selectedCountry = countries.find(
   }
 
   .custom-shape-divider-bottom-1699455067 .shape-fill {
-    @apply fill-gray-300;
+    @apply fill-gray-200;
   }
 </style>

@@ -17,7 +17,7 @@ const RandomCountryLink = ({ selectedCountry }) => {
 
     if (!randomCountry) return null
   return (
-      <a className="fixed left-20 top-1/2" href={`/countries/${randomCountry.name.common}`}>random country</a>
+      <a className="fixed left-20 top-1/2 bg-gray-500" href={`/countries/${randomCountry.name.common}`}>random country</a>
   )
 }
 export default RandomCountryLink

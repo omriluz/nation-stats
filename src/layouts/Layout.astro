@@ -20,5 +20,10 @@ import { ViewTransitions } from "astro:transitions"
   </head>
   <body>
     <slot />
-  </body><style is:global></style>
+    <style is:global>
+      body {
+        @apply bg-gray-200;
+      }
+    </style>
+  </body>
 </html>
