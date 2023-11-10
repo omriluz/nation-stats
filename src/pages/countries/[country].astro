@@ -67,41 +67,51 @@ const selectedCountry = countries.find(
 
         {
           selectedCountry && (
-            <ul
-              class="font-bold opacity-0 mt-10 bg-white/60 py-2 px-4 rounded-lg space-y-4 transition-opacity duration-500"
-              id="country-info"
-            >
-              <li>
-                Region:{" "}
-                {selectedCountry.region}
+            <>
+              <ul
+                class="font-bold opacity-0 mt-10 bg-white/60 py-2 px-4 rounded-lg space-y-4 transition-opacity duration-500"
+                id="country-info"
+              >
+                <li>Region: {selectedCountry.region}</li>
+                <li>
+                  Capital:{" "}
+                  {selectedCountry?.capital ? selectedCountry?.capital[0] : ""}
                 </li>
-              <li>
-                Capital:{" "}
-                {selectedCountry?.capital ? selectedCountry?.capital[0] : ""}
-              </li>
-              <li>
-                Population:{" "}
-                {new Intl.NumberFormat().format(selectedCountry?.population)}
-              </li>
-              <li>
-                Size
-                {new Intl.NumberFormat().format(selectedCountry?.area)}  Km<sup>2</sup>
-              </li>
-              <li class="flex gap-4">
-                Language:{" "}
-                {selectedCountry?.languages &&
-                  Object.values(selectedCountry?.languages).map(value => (
-                    <span>{value}</span>
-                  ))}
-              </li>
-              <li class="flex gap-4">
-                Currency:{" "}
-                {selectedCountry?.currencies &&
-                  Object.values(selectedCountry.currencies).map(value => (
-                    <span>{value.name}</span>
-                  ))}
-              </li>
-            </ul>
+                <li>
+                  Population:{" "}
+                  {new Intl.NumberFormat().format(selectedCountry?.population)}
+                </li>
+                <li>
+                  Size
+                  {new Intl.NumberFormat().format(selectedCountry?.area)} Km
+                  <sup>2</sup>
+                </li>
+                <li class="flex gap-4">
+                  Language:{" "}
+                  {selectedCountry?.languages &&
+                    Object.values(selectedCountry?.languages).map(value => (
+                      <span>{value}</span>
+                    ))}
+                </li>
+                <li class="flex gap-4">
+                  Currency:{" "}
+                  {selectedCountry?.currencies &&
+                    Object.values(selectedCountry.currencies).map(value => (
+                      <span>{value.name}</span>
+                    ))}
+                </li>
+              </ul>
+                <iframe
+                src={`https://maps.google.com/maps?q=${selectedCountry.latlng[0]},${selectedCountry.latlng[1]}&hl=es&z=5&amp;output=embed`}
+                class="my-6 hidden"
+                width="100%"
+                height="450"
+                style="border:0;"
+                allowfullscreen=""
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </>
           )
         }
       </div>
