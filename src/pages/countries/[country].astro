@@ -28,9 +28,13 @@ const selectedCountry = countries.find(
 <Layout title={`Nation Stats For ${country}`}>
   <main>
     <header
-      class="h-96 relative bg-gradient-to-tr from-slate-600 via-slate-200 to-slate-800"
+      class="h-96 relative z-20 overflow-hidden"
     >
-      <div class="custom-shape-divider-bottom-1699455067">
+    <div class="bg-gradient-to-tr absolute from-slate-600/90 z-40 via-slate-200/90 to-slate-800/90 w-full h-full"></div>
+    <div class="absolute z-30 w-full bg-red-500 top-0 left-0">
+    <img src="/header.png" class="w-full" alt="">
+  </div>
+      <div class="z-50 custom-shape-divider-bottom-1699455067">
         <svg
           data-name="Layer 1"
           xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +105,7 @@ const selectedCountry = countries.find(
                     ))}
                 </li>
               </ul>
-                <iframe
+              <iframe
                 src={`https://maps.google.com/maps?q=${selectedCountry.latlng[0]},${selectedCountry.latlng[1]}&hl=es&z=5&amp;output=embed`}
                 class="my-6 hidden"
                 width="100%"
@@ -110,12 +114,27 @@ const selectedCountry = countries.find(
                 allowfullscreen=""
                 loading="lazy"
                 referrerpolicy="no-referrer-when-downgrade"
-              ></iframe>
+              />
             </>
           )
         }
       </div>
     </section>
+    <div>
+      {
+        countries
+        .filter((country) => country.name.common !== selectedCountry?.name.common)
+        .map(({ name, flags }) => (
+          <a href={`/countries/${name.common}`}>
+            <img
+              transition:name={`flag-of-${name.common}`}
+              class="w-96"
+              src={flags.png}
+            />
+          </a>
+        ))
+      }
+    </div>
   </main>
   <RandomCountryLink selectedCountry={selectedCountry} client:load />
 </Layout>

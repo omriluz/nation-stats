@@ -4,19 +4,17 @@ import countries from "../../countries_new.json"
 ---
 
 <Layout title="Welcome to Astro.">
-  <main class="flex flex-wrap gap-4">
+  <main class="bg-red-500 flex flex-wrap justify-center items-center gap-4 px-4 lg:px-8 max-w-screen-2xl mx-auto">
     {
-      countries.map(({ name, flags }) => {
-        return (
-          <a href={`/countries/${name.common}`}>
-            <img
-              transition:name={`flag-of-${name.common}`}
-              class="w-96 aspect-[2/1]"
-              src={flags.png}
-            />
-          </a>
-        )
-      })
+      countries.map(({ name, flags }) => (
+        <a href={`/countries/${name.common}`}>
+          <img
+            transition:name={`flag-of-${name.common}`}
+            class="w-96"
+            src={flags.png}
+          />
+        </a>
+      ))
     }
   </main>
 </Layout>
