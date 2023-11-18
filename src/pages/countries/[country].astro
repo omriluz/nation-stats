@@ -1,7 +1,8 @@
 ---
 import countries from "../../../countries_new.json"
+import Header from "../../components/Header.astro"
 import Layout from "../../layouts/Layout.astro"
-import RandomCountryLink from "../../components/RandomCountryLink.jsx"
+import Icon from "astro-icon"
 
 export function getStaticPaths() {
   return countries.map(country => {
@@ -17,38 +18,20 @@ const { country } = Astro.params
 const selectedCountry = countries.find(
   ({ name }: any) => name.common === country
 )
-
-// const population = selectedCountry?.population
-// const countryData = {population}
-// const countryData = {
-//     population: new Intl.NumberFormat().format(48232389)} || "",
-// }
 ---
 
 <Layout title={`Nation Stats For ${country}`}>
   <main>
-    <header
-      class="h-96 relative z-20 overflow-hidden"
-    >
-    <div class="bg-gradient-to-tr absolute from-slate-600/90 z-40 via-slate-200/90 to-slate-800/90 w-full h-full"></div>
-    <div class="absolute z-30 w-full bg-red-500 top-0 left-0">
-    <img src="/header.png" class="w-full" alt="">
-  </div>
-      <div class="z-50 custom-shape-divider-bottom-1699455067">
-        <svg
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-            class="shape-fill"></path>
-        </svg>
-      </div>
-    </header>
+    <Header />
     <section class="max-w-7xl mx-auto -mt-48 relative z-40">
       <div class="max-w-[40rem] relative mx-auto">
+        <div>
+        <a
+          href="/"
+          class="absolute transition-all duration-300 -top-[6rem] rounded-full p-2 bg-gray-800 hover:bg-gray-600 text-white font-semibold"
+        >
+          <Icon name="mdi:chevron-left" class="h-6 w-6" />
+        </a>
         {
           selectedCountry && (
             <h1
@@ -62,7 +45,7 @@ const selectedCountry = countries.find(
         {
           selectedCountry && (
             <img
-              class="w-full"
+              class="w-full h-80"
               transition:name={`flag-of-${selectedCountry?.name.common}`}
               src={selectedCountry.flags.png}
             />
@@ -93,9 +76,9 @@ const selectedCountry = countries.find(
                 <li class="flex gap-4">
                   Language:{" "}
                   {selectedCountry?.languages &&
-                    Object.values(selectedCountry?.languages).map(value => (
-                      <span>{value}</span>
-                    ))}
+                    new Intl.ListFormat().format(
+                      Object.values(selectedCountry?.languages)
+                    )}
                 </li>
                 <li class="flex gap-4">
                   Currency:{" "}
@@ -118,25 +101,31 @@ const selectedCountry = countries.find(
             </>
           )
         }
+        </div>
+        <div class="flex flex-col gap-4 mt-4">
+          <h2 class="text-3xl font-bold">Recommended Countries</h2>
+          <div class="flex flex-col gap-4 "></div>
+          {
+            countries
+              .filter(
+                country => country.name.common !== selectedCountry?.name.common
+              )
+              .sort(() => 0.5 - Math.random())
+              .slice(0, 4)
+              .map(({ name, flags }) => (
+                <a href={`/countries/${name.common}`}>
+                  <img
+                    transition:name={`flag-of-${name.common}`}
+                    class="w-full h-80"
+                    src={flags.png}
+                  />
+                </a>
+              ))
+          }
+        </div>
       </div>
     </section>
-    <div>
-      {
-        countries
-        .filter((country) => country.name.common !== selectedCountry?.name.common)
-        .map(({ name, flags }) => (
-          <a href={`/countries/${name.common}`}>
-            <img
-              transition:name={`flag-of-${name.common}`}
-              class="w-96"
-              src={flags.png}
-            />
-          </a>
-        ))
-      }
-    </div>
   </main>
-  <RandomCountryLink selectedCountry={selectedCountry} client:load />
 </Layout>
 
 <script>
@@ -158,26 +147,3 @@ const selectedCountry = countries.find(
     }, 200)
   })
 </script>
-
-<style>
-  .custom-shape-divider-bottom-1699455067 {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    transform: rotate(180deg);
-  }
-
-  .custom-shape-divider-bottom-1699455067 svg {
-    position: relative;
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 70px;
-  }
-
-  .custom-shape-divider-bottom-1699455067 .shape-fill {
-    @apply fill-gray-200;
-  }
-</style>

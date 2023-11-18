@@ -5,6 +5,8 @@ interface Props {
 
 const { title } = Astro.props
 import { ViewTransitions } from "astro:transitions"
+import Navbar from "../components/Navbar.astro";
+import '@fontsource/lato'
 ---
 
 <!doctype html>
@@ -19,9 +21,12 @@ import { ViewTransitions } from "astro:transitions"
     <title>{title}</title>
   </head>
   <body>
+    <Navbar/>
     <slot />
     <style is:global>
+
       body {
+        font-family: 'Lato', sans-serif;
         @apply bg-gray-200;
       }
     </style>

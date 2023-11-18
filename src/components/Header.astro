@@ -1,0 +1,19 @@
+---
+import Wave from "./Wave.astro"
+---
+
+<header
+  class="h-96 relative z-20 overflow-hidden flex justify-center items-center"
+>
+  <h1 class="relative z-50 text-5xl font-bold text-gray-600">
+    <slot name="title" />
+  </h1>
+  <div
+    class="bg-gradient-to-tr absolute from-slate-600/90 z-40 via-slate-200/90 to-slate-800/90 w-full h-full"
+  >
+  </div>
+  <div class="absolute z-30 w-full bg-red-500 top-0 left-0">
+    <img src="/header.png" class="w-full" alt="" />
+  </div>
+  <Wave />
+</header>

@@ -1,20 +1,35 @@
 ---
 import Layout from "../layouts/Layout.astro"
 import countries from "../../countries_new.json"
+import Header from "../components/Header.astro"
 ---
 
-<Layout title="Welcome to Astro.">
-  <main class="bg-red-500 flex flex-wrap justify-center items-center gap-4 px-4 lg:px-8 max-w-screen-2xl mx-auto">
+<Layout title="Nation Stats - Learn About Countries in a fun way">
+  <!-- <Header title={'Learn About Countries With Nation Stats'} /> -->
+  <Header>
+    <span slot="title"
+      >Learn About Countries With <span
+        class="bg-gradient-to-br from-sky-300 to-emerald-600 bg-clip-text text-transparent"
+        >Nation Stats</span
+      ></span
+    >
+  </Header>
+  <main
+    class="grid grid-cols-4 gap-4 mt-20 px-4 lg:px-8 max-w-screen-2xl mx-auto"
+  >
     {
-      countries.map(({ name, flags }) => (
-        <a href={`/countries/${name.common}`}>
-          <img
-            transition:name={`flag-of-${name.common}`}
-            class="w-96"
-            src={flags.png}
-          />
-        </a>
-      ))
+      countries
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 4)
+        .map(({ name, flags }) => (
+          <a href={`/countries/${name.common}`}>
+            <img
+              transition:name={`flag-of-${name.common}`}
+              class="w-96 h-40"
+              src={flags.png}
+            />
+          </a>
+        ))
     }
   </main>
 </Layout>
