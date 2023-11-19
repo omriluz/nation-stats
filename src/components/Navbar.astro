@@ -14,7 +14,7 @@ import countries from "../../countries_new.json"
     <input
       type="text"
       data-search-input
-      placeholder="Search Countries..."
+      placeholder='press "/" to go to search'
       list="countries"
       class="indent-2 py-2 rounded-full"
     />
@@ -29,13 +29,26 @@ import countries from "../../countries_new.json"
 </header>
 
 <script>
-  import { navigate } from 'astro:transitions/client';
+  import { navigate } from "astro:transitions/client"
   const form = document.querySelector("[data-search-form]")
-  const input = document.querySelector("[data-search-input]") as HTMLInputElement
+  const input = document.querySelector(
+    "[data-search-input]"
+  ) as HTMLInputElement
   form?.addEventListener("submit", e => {
     e.preventDefault()
     const inputValue = input?.value
     // add here if not in countries return
     navigate(`/countries/${input?.value}`)
+  })
+
+  document.addEventListener("keyup", e => {
+    const searchInput = document.querySelector(
+      "[data-search-input]"
+    ) as HTMLInputElement
+
+    console.log("fdsa", e.key)
+    if (e.key === "/") {
+      searchInput.focus()
+    }
   })
 </script>
